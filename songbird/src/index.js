@@ -4,18 +4,30 @@ import birdsDataRu from './data/birds-ru';
 import reducer from './redux/reducer';
 import createStore from './redux/store';
 import App from './pages/app';
+import { PageIds } from './core/type';
 
 const storeKEY = 'songbird';
 const defaultUserData = {
 	language: 'en',
 	score: 0,
+	currentPage: PageIds.StartPage,
 };
 
 const initialState = {
 	userData: {},
 	interface: {
-		en: {},
-		ru: {},
+		en: {
+			menuQuiz: 'Quiz',
+			menuRezult: 'Rezults',
+			langEn: 'English',
+			langRu: 'Russian',
+		},
+		ru: {
+			menuQuiz: 'Викторина',
+			menuRezult: 'Результаты',
+			langEn: 'Английский',
+			langRu: 'Руссий',
+		},
 	},
 	data: {
 		en: birdsDataEn,
@@ -34,13 +46,12 @@ export function getLocalStorage() {
 	const userData = JSON.parse(localStorage.getItem(storeKEY)); // read date from the store
 	store.dispatch({type: 'SET_USER_DATA', userData});
 }
-
 function setItemToLocalStorage() {
 	localStorage.setItem(storeKEY, JSON.stringify(store.getState().userData));
 }
 window.addEventListener('beforeunload', setItemToLocalStorage);
 
-console.log('store: ', store.getState());
+// console.log('store: ', store.getState());
 
-const app = new App();
+const app = new App(store);
 app.run();

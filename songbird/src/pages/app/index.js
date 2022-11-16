@@ -5,46 +5,52 @@ import StartPage from '../../pages/start';
 import RezultsPage from '../../pages/results';
 import QuizPage from '../../pages/quiz';
 import ErrorPage from '../../pages/error';
-
-
-export const PageIds = {
-	StartPage: 'start-page',
-	QuizPage: 'quiz-page',
-	RezultsPage: 'rezult-page',
-	ErrorPage: 'error-page'
-};
+import { PageIds } from '../../core/type';
 
 class App {
-	static container = document.body;
-	static defaultPageId;
-	static main;
+	// static currentPage;
+	// static main;
 
-	constructor() {
-		App.defaultPageId = 'current-page';
-		this.header = new Header('header', 'header');
-		App.main = new Main('main', 'main');
+	constructor(props) {
+		this.container = document.body;
+		this.store = props;
+		// this.currentPage = 'current-page';
+		this.currentPage = this.store.getState().userData.currentPage;
+		this.header = new Header(this.store, 'header', 'header');
+		this.main = new Main('main', 'main');
 		this.footer = new Footer('footer', 'footer');
+
+		this.header.addEventListener('switchlanguage', ()=>{
+			this.render();
+		});
 	}
 
-	static renderNewPage(idPage) {
-		const mainContainer = App.main.render();
-		mainContainer.innerHTML = '';
+	renderNewPage(idPage) {
+		const mainContainer = this.main.container;
+		const currentPageHTML = mainContainer.querySelector(`#${this.currentPage}`);
+		if (currentPageHTML) {
+			// this.main.page.destroy();
+			currentPageHTML.remove();
+		}
+		// mainContainer.innerHTML = '';
 		let page = null;
 
 		if (idPage === PageIds.StartPage) {
 			page = new StartPage(idPage);
-			App.defaultPageId = PageIds.StartPage;
+			this.currentPage = PageIds.StartPage;
 		} else if (idPage === PageIds.RezultsPage) {
 			page = new RezultsPage(idPage);
-			App.defaultPageId = PageIds.RezultsPage;
+			this.currentPage = PageIds.RezultsPage;
 		}	else if (idPage === PageIds.QuizPage) {
 			page = new QuizPage(idPage);
-			App.defaultPageId = PageIds.QuizPage;
+			this.currentPage = PageIds.QuizPage;
 		}
 		else {
 			page = new ErrorPage(idPage);
-			App.defaultPageId = PageIds.ErrorPage;
+			this.currentPage = PageIds.ErrorPage;
 		}
+
+		this.store.dispatch({type: 'SWITCH_PAGE', currentPage: this.currentPage});
 
 		const headerMenu = document.querySelector('#header-menu');
 		const headerMenuItems = headerMenu.querySelectorAll('a');
@@ -58,7 +64,8 @@ class App {
 
 		if (page) {
 			const pageHTML = page.render();
-			// pageHTML.id = App.defaultPageId;
+			this.main.page = page;
+			// pageHTML.id = this.currentPage;
 			mainContainer.append(pageHTML);
 		}
 	}
@@ -66,19 +73,24 @@ class App {
 	enableRouterChange() {
 		window.addEventListener('hashchange', () => {
 			const hash = window.location.hash.slice(1);
-			App.renderNewPage(hash);
+			this.renderNewPage(hash);
 		});
 	}
 
+	render() {
+		this.container.append(this.header.render());
+		this.container.append(this.main.render());
+		this.container.append(this.footer.render());
+		this.renderNewPage(this.currentPage);
+		// this.renderNewPage(PageIds.StartPage);
+		// this.renderNewPage(PageIds.QuizPage);
+		// this.renderNewPage(PageIds.RezultsPage);
+	}
+
 	run() {
-		App.container.innerHTML = '';
-		App.container.append(this.header.render());
-		App.container.append(App.main.render());
-		App.container.append(this.footer.render());
-		App.defaultPageId = PageIds.StartPage;
-		App.renderNewPage(PageIds.StartPage);
-		// App.renderNewPage(PageIds.QuizPage);
-		// App.renderNewPage(PageIds.RezultsPage);
+		this.currentPage = this.store.getState().userData.currentPage;
+		this.render();
+
 		this.enableRouterChange();
 	}
 }
