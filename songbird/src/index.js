@@ -8,7 +8,7 @@ import { PageIds } from './core/type';
 
 const storeKEY = 'songbird';
 const defaultUserData = {
-	language: 'en',
+	language: 'ru',
 	score: 0,
 	currentPage: PageIds.StartPage,
 };
@@ -50,8 +50,6 @@ function setItemToLocalStorage() {
 	localStorage.setItem(storeKEY, JSON.stringify(store.getState().userData));
 }
 window.addEventListener('beforeunload', setItemToLocalStorage);
-
-// console.log('store: ', store.getState());
 
 const app = new App(store);
 app.run();

@@ -8,9 +8,6 @@ import ErrorPage from '../../pages/error';
 import { PageIds } from '../../core/type';
 
 class App {
-	// static currentPage;
-	// static main;
-
 	constructor(props) {
 		this.container = document.body;
 		this.store = props;
@@ -44,9 +41,8 @@ class App {
 		}	else if (idPage === PageIds.QuizPage) {
 			page = new QuizPage(idPage);
 			this.currentPage = PageIds.QuizPage;
-		}
-		else {
-			page = new ErrorPage(idPage);
+		}	else {
+			page = new ErrorPage(PageIds.ErrorPage);
 			this.currentPage = PageIds.ErrorPage;
 		}
 
@@ -58,14 +54,13 @@ class App {
 			item.classList.remove('active-link');
 		});
 		if(idPage !== PageIds.StartPage) {
-			const activeMenu = headerMenu.querySelector(`[href="#${idPage}"]`);
-			activeMenu.classList.add('active-link');
+			const activeMenu = headerMenu.querySelector(`[href="#${this.currentPage}"]`);
+			if(activeMenu) { activeMenu.classList.add('active-link'); }
 		}
 
 		if (page) {
 			const pageHTML = page.render();
 			this.main.page = page;
-			// pageHTML.id = this.currentPage;
 			mainContainer.append(pageHTML);
 		}
 	}
