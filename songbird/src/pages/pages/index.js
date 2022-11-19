@@ -15,6 +15,10 @@ class Page {
 	render() {
 		return this.container;
 	}
+
+	init() {}
+
+	destroy() {}
 }
 
 export default Page;

@@ -1,14 +1,13 @@
 import Page from '../pages';
 import AudioPlayer from '../../components/audio-player';
-
+import SelectedAnswer from '../../components/selected-answer';
 
 class QuizPage extends Page {
-
-	static TextObject = { MainTitle: 'Quiz Page' };
-
 	constructor(id, props) {
 		super(id);
 		this.store = props;
+
+		this.init();
 	}
 
 	toHTML() {
@@ -54,34 +53,9 @@ class QuizPage extends Page {
 				<li class="answers__item"><span class="answers__item-marker"></span><span class="answers__item-name">Синица</span></li>
 			</ul>
 
-			<div class="quiz__select-answer select-answer">
+			<div class="quiz__selected-answer">
 
-				<!-- <p class="select-answer__noselect">Послушайте плеер. <br>
-					Выберите птицу из списка
-				</p> -->
 
-				<img src="./assets/images/bird-default.jpg" alt="bird" class="select-answer__image">
-				<div class="select-answer__about-wrap">
-					<h4 class="select-answer__bird-name">Синица</h4>
-					<span class="select-answer__bird-species">Parus major</span>
-
-					<div class="audioplayer audioplayer-question">
-						<button class="audioplayer__play-button audioplayer__play-button_pause"></button>
-						<div class="audioplayer__time">
-							<div class="audioplayer__progress-time">
-								<input class="audioplayer__range-time audioplayer__progress-range" type="range" value="40" min="0" max="100" step="1" name="" id="">
-								<span class="audioplayer__progress-time-current">00:09</span>
-								<span class="audioplayer__progress-time-end">00:27</span>
-							</div>
-						</div>
-						<div class="audioplayer__volume">
-							<button class="audioplayer__mute-button audioplayer__mute-button_on"></button>
-							<input class="audioplayer__range-volume audioplayer__progress-range" type="range" value="40" min="0" max="100" step="1" name="" id="">
-						</div>
-					</div>
-
-				</div>
-				<p class="select-answer__bird-description">В щебетании синиц различают более 40 различных звуковых сочетаний. Поют они практически круглый год, немного затихая только зимой. Синицы настоящие санитары леса. Одна пара синиц в период гнездования оберегает от вредителей десятки деревьев.</p>
 
 			</div>
 
@@ -99,12 +73,23 @@ class QuizPage extends Page {
 		// this.container.append(title);
 		this.container.innerHTML = this.toHTML();
 
-		const audioPlayerQuestion = new AudioPlayer('div', 'audioplayer-question');
-
 		const questionWrap = this.container.querySelector('.quiz__question-wrap');
-		questionWrap.append(audioPlayerQuestion.render());
+		questionWrap.append(this.audioPlayerQuestion.render());
+
+		const selectedAnswerElement = this.container.querySelector('.quiz__selected-answer');
+		selectedAnswerElement.append(this.selectedAnswer.render());
 
 		return this.container;
+	}
+
+	init() {
+		this.selectedAnswer = new SelectedAnswer('div', 'selected-answer');
+		this.audioPlayerQuestion = new AudioPlayer('div', 'audioplayer-question');
+	}
+
+	destroy() {
+		this.selectedAnswer.destroy();
+		this.audioPlayerQuestion.destroy();
 	}
 }
 

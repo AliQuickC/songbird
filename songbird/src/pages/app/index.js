@@ -13,23 +13,19 @@ class App {
 		this.store = props;
 		// this.currentPage = 'current-page';
 		this.currentPage = this.store.getState().userData.currentPage;
-		this.header = new Header(this.store, 'header', 'header');
-		this.main = new Main('main', 'main');
-		this.footer = new Footer('footer', 'footer');
-
-		this.header.addEventListener('switchlanguage', ()=>{
-			this.render();
-		});
+		this.init();
 	}
 
 	renderNewPage(idPage) {
-		const mainContainer = this.main.container;
-		const currentPageHTML = mainContainer.querySelector(`#${this.currentPage}`);
-		if (currentPageHTML) {
-			// this.main.page.destroy();
-			currentPageHTML.remove();
+		if(this.main.page) {
+			this.main.page.destroy();
+			this.main.page.container.remove();
 		}
-		// mainContainer.innerHTML = '';
+		const mainContainer = this.main.container;
+		// const currentPageHTML = mainContainer.querySelector(`#${this.currentPage}`);
+		// if (currentPageHTML) {
+		// 	currentPageHTML.remove();
+		// }
 		let page = null;
 
 		if (idPage === PageIds.StartPage) {
@@ -87,6 +83,23 @@ class App {
 		this.render();
 
 		this.enableRouterChange();
+	}
+
+	init() {
+		this.header = new Header(this.store, 'header', 'header');
+		this.main = new Main('main', 'main');
+		this.footer = new Footer('footer', 'footer');
+
+		this.header.addEventListener('switchlanguage', ()=>{
+			this.render();
+		});
+	}
+
+	destroy() {
+		this.header.destroy();
+		this.main.destroy();
+		this.footer.destroy();
+
 	}
 }
 

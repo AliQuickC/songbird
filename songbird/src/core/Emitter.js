@@ -1,5 +1,5 @@
 export default class Publisher {
-	_triggerEvent(eventName, event) { // универсальная ф-ция вызова различных событий
+	_triggerEvent(eventName, event = {}) { // универсальная ф-ция вызова различных событий
 		if (!this.listeners) { // если объект listeners не существует
 			this.listeners = {}; // создаем его
 		}

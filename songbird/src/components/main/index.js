@@ -9,6 +9,12 @@ class Main extends Component {
 	render() {
 		return this.container;
 	}
+
+	init() {}
+
+	destroy() {
+		if(this.page) {this.page.destroy();}
+	}
 }
 
 export default Main;

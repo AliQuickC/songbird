@@ -11,7 +11,7 @@ class Header extends Component {
 	init() {
 		this.container.onchange = (event)=> {
 			this.store.dispatch({type: 'SET_LANGUAGE', language: event.target.value});
-			this._triggerEvent('switchlanguage', {});
+			this._triggerEvent('switchlanguage');
 		};
 	}
 
