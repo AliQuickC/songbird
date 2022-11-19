@@ -1,29 +1,36 @@
 import Page from '../pages';
+import AudioPlayer from '../../components/audio-player';
+
 
 class QuizPage extends Page {
 
 	static TextObject = { MainTitle: 'Quiz Page' };
 
-	constructor(id) {
+	constructor(id, props) {
 		super(id);
+		this.store = props;
 	}
 
 	toHTML() {
+		const state = this.store.getState();
+		const language = state.userData.language;
+		const iFace = this.store.getState().interface[language].quiz;
+
 		return `
 		<div class="quiz">
 
 		<p class="quiz__score">
 			<span class="quiz__score-logo"></span>
-			<span class="quiz__score-value">Score: <span>0</span></span>
+			<span class="quiz__score-value">${iFace.score}: <span>0</span></span>
 		</p>
 
 		<div class="quiz__pagination">
-			<span class="quiz__pagination-item">Разминка</span>
-			<span class="quiz__pagination-item quiz__pagination-item_active">Воробъиные</span>
-			<span class="quiz__pagination-item">Лесные птици</span>
-			<span class="quiz__pagination-item">Певчие птици</span>
-			<span class="quiz__pagination-item">Хищные птици</span>
-			<span class="quiz__pagination-item ">Морские птици</span>
+			<span class="quiz__pagination-item">${iFace.questionList[0]}</span>
+			<span class="quiz__pagination-item quiz__pagination-item_active">${iFace.questionList[1]}</span>
+			<span class="quiz__pagination-item">${iFace.questionList[2]}</span>
+			<span class="quiz__pagination-item">${iFace.questionList[3]}</span>
+			<span class="quiz__pagination-item">${iFace.questionList[4]}</span>
+			<span class="quiz__pagination-item ">${iFace.questionList[5]}</span>
 		</div>
 
 		<div class="quiz__question">
@@ -33,20 +40,6 @@ class QuizPage extends Page {
 				<p class="quiz__question-bird-name">Ворон</p>
 
 				<!-- <audio controls></audio> -->
-				<div class="audioplayer audioplayer-question">
-					<button class="audioplayer__play-button audioplayer__play-button_pause"></button>
-					<div class="audioplayer__time">
-						<div class="audioplayer__progress-time">
-							<input class="audioplayer__range-time audioplayer__progress-range" type="range" value="40" min="0" max="100" step="1" name="" id="">
-							<span class="audioplayer__progress-time-current">00:09</span>
-							<span class="audioplayer__progress-time-end">00:27</span>
-						</div>
-					</div>
-					<div class="audioplayer__volume">
-						<button class="audioplayer__mute-button audioplayer__mute-button_on"></button>
-						<input class="audioplayer__range-volume audioplayer__progress-range" type="range" value="40" min="0" max="100" step="1" name="" id="">
-					</div>
-				</div>
 
 			</div>
 		</div>
@@ -94,7 +87,7 @@ class QuizPage extends Page {
 
 		</div>
 
-		<button class="quiz__next-button">Next</button>
+		<button class="quiz__next-button">${iFace.nextButton}</button>
 
 	</div>
 		`;
@@ -105,6 +98,12 @@ class QuizPage extends Page {
 		this.container.className = 'container quiz-container';
 		// this.container.append(title);
 		this.container.innerHTML = this.toHTML();
+
+		const audioPlayerQuestion = new AudioPlayer('div', 'audioplayer-question');
+
+		const questionWrap = this.container.querySelector('.quiz__question-wrap');
+		questionWrap.append(audioPlayerQuestion.render());
+
 		return this.container;
 	}
 }

@@ -4,13 +4,13 @@ import { PageIds } from '../../core/type';
 class Header extends Component {
 	constructor(props, tagName, className) {
 		super(tagName, className);
-		this.state = props;
+		this.store = props;
 		this.init();
 	}
 
 	init() {
 		this.container.onchange = (event)=> {
-			this.state.dispatch({type: 'SET_LANGUAGE', language: event.target.value});
+			this.store.dispatch({type: 'SET_LANGUAGE', language: event.target.value});
 			this._triggerEvent('switchlanguage', {});
 		};
 	}
@@ -20,7 +20,7 @@ class Header extends Component {
 	}
 
 	toHTML() {
-		const state = this.state.getState();
+		const state = this.store.getState();
 		const language = state.userData.language;
 		const iFace = state.interface[language];
 

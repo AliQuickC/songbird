@@ -39,7 +39,7 @@ class App {
 			page = new RezultsPage(idPage);
 			this.currentPage = PageIds.RezultsPage;
 		}	else if (idPage === PageIds.QuizPage) {
-			page = new QuizPage(idPage);
+			page = new QuizPage(idPage, this.store);
 			this.currentPage = PageIds.QuizPage;
 		}	else {
 			page = new ErrorPage(PageIds.ErrorPage);

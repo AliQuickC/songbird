@@ -5,6 +5,7 @@ import reducer from './redux/reducer';
 import createStore from './redux/store';
 import App from './pages/app';
 import { PageIds } from './core/type';
+import langInterface from './data/interface';
 
 const storeKEY = 'songbird';
 const defaultUserData = {
@@ -15,20 +16,7 @@ const defaultUserData = {
 
 const initialState = {
 	userData: {},
-	interface: {
-		en: {
-			menuQuiz: 'Quiz',
-			menuRezult: 'Rezults',
-			langEn: 'English',
-			langRu: 'Russian',
-		},
-		ru: {
-			menuQuiz: 'Викторина',
-			menuRezult: 'Результаты',
-			langEn: 'Английский',
-			langRu: 'Руссий',
-		},
-	},
+	interface: langInterface,
 	data: {
 		en: birdsDataEn,
 		ru: birdsDataRu,
