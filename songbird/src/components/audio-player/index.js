@@ -143,6 +143,7 @@ class AudioPlayer extends Component {
 		this.container.onclick = null;
 		this.container.onmouseup = null;
 		this.container.oninput = null;
+		this.audio.pause();
 		this.audio.onloadeddata = null;
 		this.audio.ontimeupdate = null;
 		this.audio.onended = null;

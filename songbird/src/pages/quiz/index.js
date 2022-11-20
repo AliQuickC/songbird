@@ -23,6 +23,11 @@ class QuizPage extends Page {
 		const questionName = quizData.checkAnswers[questionBirdId] ? answers[questionBirdId].name : '* * * * *';
 		const questionImage = quizData.checkAnswers[questionBirdId] ? answers[questionBirdId].image : './assets/images/bird-default.jpg';
 
+		let paginationElements = '';
+		for (let i = 0; i < 6; i++) {
+			paginationElements += `<span class="quiz__pagination-item">${iFace.questionList[i]}</span>`;
+		}
+
 		let answersElems = '';
 		for(let i=0; i<6; i++) {
 			let answerClass = '';
@@ -42,12 +47,7 @@ class QuizPage extends Page {
 		</p>
 
 		<div class="quiz__pagination">
-			<span class="quiz__pagination-item">${iFace.questionList[0]}</span>
-			<span class="quiz__pagination-item">${iFace.questionList[1]}</span>
-			<span class="quiz__pagination-item">${iFace.questionList[2]}</span>
-			<span class="quiz__pagination-item">${iFace.questionList[3]}</span>
-			<span class="quiz__pagination-item">${iFace.questionList[4]}</span>
-			<span class="quiz__pagination-item">${iFace.questionList[5]}</span>
+			${paginationElements}
 		</div>
 
 		<div class="quiz__question">
@@ -112,6 +112,9 @@ class QuizPage extends Page {
 	init() {
 		this.selectedAnswer = new SelectedAnswer(this.store, 'div', 'selected-answer');
 		this.audioPlayerQuestion = new AudioPlayer('div', 'audioplayer-question');
+		this.answerSound = new Audio();
+		this.answerSound.currentTime = 0;
+		this.answerSound.volume = 0.2;
 
 		this.container.onclick = (event) => {
 			if( event.target) {
@@ -122,15 +125,21 @@ class QuizPage extends Page {
 				const selectAnswer = event.target.closest('[data-answer]');
 				if(selectAnswer) {
 					const answerNum = +selectAnswer.dataset.answer;
-					// const checkAnswer = quizData.checkAnswers[answerNum];
-					// console.log('checkAnsw: ', checkAnswer);
+
+					if(!quizData.haveTrueAnswer && !quizData.checkAnswers[answerNum]) {
+						if( answerNum === quizData.questionBirdId) {
+							this.answerSound.src = './assets/sound/correct-answer.mp3';
+							this.answerSound.play();
+						} else {
+							this.answerSound.src = './assets/sound/wrong-answer.mp3';
+							this.answerSound.play();
+						}
+					}
 					this.store.dispatch({type: 'SELECT_ANSWER', answerNum});
-					// if(!checkAnswer) {
-					// }
+
 					this.render();
 				}
 				if(event.target.closest('.quiz__next-button') && quizData.haveTrueAnswer) {
-					console.log('quizData.currentQuestion: ', quizData.currentQuestion);
 					if(quizData.currentQuestion === totalQuestions-1) {
 						this.store.dispatch({type: 'END_QUIZ'});
 						window.location.hash = PageIds.RezultsPage;
