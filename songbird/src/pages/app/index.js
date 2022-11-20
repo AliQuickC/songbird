@@ -11,7 +11,6 @@ class App {
 	constructor(props) {
 		this.container = document.body;
 		this.store = props;
-		// this.currentPage = 'current-page';
 		this.currentPage = this.store.getState().userData.currentPage;
 		this.init();
 	}
@@ -29,10 +28,10 @@ class App {
 		let page = null;
 
 		if (idPage === PageIds.StartPage) {
-			page = new StartPage(idPage);
+			page = new StartPage(idPage, this.store);
 			this.currentPage = PageIds.StartPage;
 		} else if (idPage === PageIds.RezultsPage) {
-			page = new RezultsPage(idPage);
+			page = new RezultsPage(idPage, this.store);
 			this.currentPage = PageIds.RezultsPage;
 		}	else if (idPage === PageIds.QuizPage) {
 			page = new QuizPage(idPage, this.store);

@@ -1,17 +1,61 @@
 import Page from '../pages';
-
+import { PageIds } from '../../core/type';
+const maxScoreRezult = 30;
 class RezultsPage extends Page {
-
-	static TextObject = {MainTitle: 'Rezults Page'};
-
-	constructor(id) {
+	constructor(id, props) {
 		super(id);
+		this.store = props;
+
+		this.init();
+	}
+
+	toHTML() {
+		const state = this.store.getState();
+		const language = state.userData.language;
+		const iFace = this.store.getState().interface[language];
+
+		let message = '';
+
+		if(state.userData.score) {
+			message = `${iFace.rezultPage.scoreInfo}: ${state.userData.score}`;
+		} else {
+			message = iFace.rezultPage.noScoreInfo;
+		}
+
+		let nextRezult = '';
+		if(!state.userData.quizData.startQuiz) {
+			if(state.userData.score === maxScoreRezult) {
+				nextRezult = `<p class="rezult-window__info-complete">${iFace.rezultPage.congratulations}</p>`;
+			} else {
+				nextRezult = `<button class="start-button">${iFace.startPage.startButton}</button>`;
+			}
+		} else {
+			nextRezult = `<p class="rezult-window__info-complete">${iFace.rezultPage.completeInfo}</p>`;
+		}
+
+		return `
+		<div class="rezult-window">
+			<p class="rezult-window__info">${message}</p>
+			${nextRezult}
+		</div>
+		`;
+	}
+
+	init() {
+		this.container.onclick = (event) => {
+			if(event.target.closest('.start-button')) {
+				window.location.hash = PageIds.QuizPage;
+			}
+		};
+	}
+
+	destroy() {
+		this.container.onclick = null;
 	}
 
 	render() {
-		const title = this.createHeaderTitle(RezultsPage.TextObject.MainTitle);
 		this.container.className = 'container rezults-container';
-		this.container.append(title);
+		this.container.innerHTML = this.toHTML();
 		return this.container;
 	}
 }

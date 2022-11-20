@@ -73,7 +73,7 @@ class QuizPage extends Page {
 
 		</div>
 
-		<button class="quiz__next-button">${iFace.nextButton}</button>
+		<button class="quiz__next-button ${quizData.haveTrueAnswer ? 'quiz__next-button_active' : ''}">${iFace.nextButton}</button>
 
 	</div>
 		`;
