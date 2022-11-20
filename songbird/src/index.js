@@ -12,6 +12,14 @@ const defaultUserData = {
 	language: 'ru',
 	score: 0,
 	currentPage: PageIds.StartPage,
+	quizData: {
+		// quizStart: false,
+		// currentQuestion: 0,
+		// questionBirdId: 4,
+		// checkAnswers: [false, false, false, false, false, false],
+		// selectAnswer: undefined,
+		// quizScore: 0,
+	},
 };
 
 const initialState = {
@@ -24,6 +32,7 @@ const initialState = {
 };
 
 const store = createStore(reducer, initialState);
+
 getLocalStorage();
 
 export function getLocalStorage() {

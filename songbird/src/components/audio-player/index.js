@@ -27,19 +27,20 @@ class AudioPlayer extends Component {
 		</div>
 		<div class="audioplayer__volume">
 			<button class="audioplayer__mute-button "></button>
-			<input class="audioplayer__range-volume audioplayer__progress-range" type="range" value="40" min="0" max="100" step="1" name="" id="">
+			<input class="audioplayer__range-volume audioplayer__progress-range" type="range" value="0" min="0" max="100" step="1" name="" id="">
 		</div>
 		`;
 	}
 
 	init() {
-		this.audio.src = 'https://www.xeno-canto.org/sounds/uploaded/ZNCDXTUOFL/XC477326-dudek%20%282%29.mp3';
 		this.audio.currentTime = timeZero;
 		this.audio.volume = volumeDefault;
 
 		this.audio.onloadeddata = (event) => {
+			const timeRange = this.container.querySelector('.audioplayer__range-time');
 			const trackLength = this.container.querySelector('.audioplayer__progress-time-end');
 			trackLength.textContent = getTimeCodeFromNum(event.target.duration);
+			timeRange.value = 0;
 		};
 		this.audio.ontimeupdate = (event) => {
 			const timeRange = this.container.querySelector('.audioplayer__range-time');
@@ -134,6 +135,10 @@ class AudioPlayer extends Component {
 		};
 	}
 
+	stop() {
+		this.audio.pause();
+	}
+
 	destroy() {
 		this.container.onclick = null;
 		this.container.onmouseup = null;
@@ -149,14 +154,20 @@ class AudioPlayer extends Component {
 		element.style.background = `linear-gradient(to right, rgb(0, 188, 140) 0%, rgb(61, 133, 140) ${newValue}%, rgb(115, 115, 115) ${newValue}%, rgb(115, 115, 115) 100%)`;
 	}
 
+	setAudioTrack(str) {
+		this.audio.src = str;
+	}
+
 	render() {
 		this.container.innerHTML = this.toHTML();
+		// this.setAudioTrack('https://www.xeno-canto.org/sounds/uploaded/ZNCDXTUOFL/XC477326-dudek%20%282%29.mp3');
 
 		const volumeRange = this.container.querySelector('.audioplayer__range-volume');
 		volumeRange.value = this.audio.volume * 100;
 		this.changeRange(volumeRange);
 		const timeRange = this.container.querySelector('.audioplayer__range-time');
 		this.changeRange(timeRange);
+		timeRange.value = 0;
 
 		return this.container;
 	}

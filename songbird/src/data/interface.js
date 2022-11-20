@@ -7,7 +7,8 @@ const langInterface = {
 		quiz: {
 			score: 'Score',
 			nextButton: 'Next',
-			questionList: ['warming-up', 'Corvus', 'forest birds', 'Songbirds', 'Birds of Prey', 'Sea Birds'],
+			questionList: ['Warming-up', 'Corvus', 'Forest birds', 'Songbirds', 'Birds of Prey', 'Sea Birds'],
+			answerNoSelect: 'Listen to the player. <br> Select a bird from the list',
 		}
 	},
 	ru: {
@@ -19,6 +20,7 @@ const langInterface = {
 			score: 'Счет игры',
 			nextButton: 'Следующий вопрос',
 			questionList: ['Разминка', 'Воробъиные', 'Лесные птици', 'Певчие птици', 'Хищные птици', 'Морские птици'],
+			answerNoSelect: 'Послушайте плеер. <br>	Выберите птицу из списка',
 		}
 	},
 };

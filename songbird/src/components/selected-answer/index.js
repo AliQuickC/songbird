@@ -2,33 +2,54 @@ import Component from '../components';
 import AudioPlayer from '../../components/audio-player';
 
 class SelectedAnswer extends Component {
-	constructor(tagName, className) {
+	constructor(props, tagName, className) {
 		super(tagName, className);
+		this.store = props;
 
 		this.init();
 	}
 
 	toHTML() {
-		return `
-		<!-- <p class="selected-answer__noselect">Послушайте плеер. <br>
-			Выберите птицу из списка
-		</p> -->
+		const state = this.store.getState();
+		const quizData = state.userData.quizData;
+		const language = state.userData.language;
+		const iFace = this.store.getState().interface[language].quiz;
+		const selectAnswer = state.data[language][quizData.currentQuestion][quizData.selectAnswer];
+		// console.log('selectAnswer: ', selectAnswer);
 
-		<img src="./assets/images/bird-default.jpg" alt="bird" class="selected-answer__image">
-		<div class="selected-answer__about-wrap">
-			<h4 class="selected-answer__bird-name">Синица</h4>
-			<span class="selected-answer__bird-species">Parus major</span>
+		if(quizData.selectAnswer !== undefined) {
+			// currentQuestion: 0,
 
-
-		</div>
-		<p class="selected-answer__bird-description">В щебетании синиц различают более 40 различных звуковых сочетаний. Поют они практически круглый год, немного затихая только зимой. Синицы настоящие санитары леса. Одна пара синиц в период гнездования оберегает от вредителей десятки деревьев.</p>
-		`;
+			return `
+			<div class="selected-answer__image-wrap">
+				<img src="${selectAnswer.image}" alt="bird" class="selected-answer__image">
+			</div>
+			<div class="selected-answer__about-wrap">
+				<h4 class="selected-answer__bird-name">${selectAnswer.name}</h4>
+				<span class="selected-answer__bird-species">${selectAnswer.species}</span>
+			</div>
+			<p class="selected-answer__bird-description">${selectAnswer.description}</p>
+			`;
+		} else {
+			return `
+			<p class="selected-answer__noselect">${iFace.answerNoSelect}</p>`;
+		}
 	}
 
 	render() {
+		const state = this.store.getState();
+		const quizData = state.userData.quizData;
+		const language = state.userData.language;
+		const selectAnswer = state.data[language][quizData.currentQuestion][quizData.selectAnswer];
+
 		this.container.innerHTML = this.toHTML();
-		const aboutAnswerElement = this.container.querySelector('.selected-answer__about-wrap');
-		aboutAnswerElement.append(this.audioPlayerQuestion.render());
+
+		this.audioPlayerQuestion.stop();
+		if(quizData.selectAnswer !== undefined) {
+			const aboutAnswerElement = this.container.querySelector('.selected-answer__about-wrap');
+			aboutAnswerElement.append(this.audioPlayerQuestion.render());
+			this.audioPlayerQuestion.setAudioTrack(selectAnswer.audio);
+		}
 
 		return this.container;
 	}
