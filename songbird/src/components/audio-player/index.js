@@ -125,7 +125,7 @@ class AudioPlayer extends Component {
 			}
 		};
 
-		this.container.onmouseup = (event) => {
+		const onmouseupHandler = (event) => {
 			if (event.target) {
 				if (event.target.classList.contains('audioplayer__range-time')) {
 					this.isProgressTimeInput = false;
@@ -133,6 +133,8 @@ class AudioPlayer extends Component {
 				}
 			}
 		};
+		this.container.onmouseup = onmouseupHandler;
+		this.container.ontouchend = onmouseupHandler;
 	}
 
 	stop() {
@@ -161,7 +163,6 @@ class AudioPlayer extends Component {
 
 	render() {
 		this.container.innerHTML = this.toHTML();
-		// this.setAudioTrack('https://www.xeno-canto.org/sounds/uploaded/ZNCDXTUOFL/XC477326-dudek%20%282%29.mp3');
 
 		const volumeRange = this.container.querySelector('.audioplayer__range-volume');
 		volumeRange.value = this.audio.volume * 100;
