@@ -21,10 +21,6 @@ class App {
 			this.main.page.container.remove();
 		}
 		const mainContainer = this.main.container;
-		// const currentPageHTML = mainContainer.querySelector(`#${this.currentPage}`);
-		// if (currentPageHTML) {
-		// 	currentPageHTML.remove();
-		// }
 		let page = null;
 
 		if (idPage === PageIds.StartPage) {
@@ -91,8 +87,6 @@ class App {
 
 		this.header.addEventListener('switchlanguage', ()=>{
 			this.renderNewPage(this.currentPage);
-
-			// this.render();
 		});
 	}
 

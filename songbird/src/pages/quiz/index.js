@@ -106,8 +106,8 @@ class QuizPage extends Page {
 	}
 
 	init() {
-		this.selectedAnswer = new SelectedAnswer(this.store, 'div', 'selected-answer');
 		this.answersList = new AnswersList(this.store, 'div', 'answers__list');
+		this.selectedAnswer = new SelectedAnswer(this.store, 'div', 'selected-answer');
 		this.audioPlayerQuestion = new AudioPlayer('div', 'audioplayer-question');
 		this.answerSound = new Audio();
 		this.answerSound.currentTime = 0;
@@ -124,7 +124,7 @@ class QuizPage extends Page {
 					const answerNum = +selectAnswer.dataset.answer;
 
 					this.store.dispatch({type: 'SELECT_ANSWER', answerNum});
-					if(!quizData.haveTrueAnswer && !quizData.checkAnswers[answerNum]) { // new select answer
+					if(!quizData.haveTrueAnswer && !quizData.checkAnswers[answerNum]) { // new answer select
 						if( answerNum === quizData.trueAnswer) {
 							this.answerSound.src = './assets/sound/correct-answer.mp3';
 							this.answerSound.play();
