@@ -2,8 +2,7 @@ const langInterface = {
 	en: {
 		menuQuiz: 'Quiz',
 		menuRezult: 'Rezults',
-		langEn: 'English',
-		langRu: 'Russian',
+		langSwitch: 'ru/en',
 		startPage: {
 			startButton: 'Start Quiz'
 		},
@@ -23,8 +22,7 @@ const langInterface = {
 	ru: {
 		menuQuiz: 'Викторина',
 		menuRezult: 'Результаты',
-		langEn: 'Английский',
-		langRu: 'Руссий',
+		langSwitch: 'ру/анг',
 		startPage: {
 			startButton: 'Начать Викторину'
 		},

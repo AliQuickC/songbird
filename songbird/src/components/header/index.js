@@ -10,8 +10,18 @@ class Header extends Component {
 
 	init() {
 		this.container.onchange = (event)=> {
-			this.store.dispatch({type: 'SET_LANGUAGE', language: event.target.value});
-			this._triggerEvent('switchlanguage');
+			if(event.target && event.target.closest('.switch__box')) {
+				const language = event.target.checked ? 'en' : 'ru';
+				this.store.dispatch({type: 'SET_LANGUAGE', language});
+				this._triggerEvent('switchlanguage');
+
+				const state = this.store.getState();
+				const intLanguage = state.userData.language;
+				const iFace = state.interface[intLanguage];
+
+				this.container.querySelector('.switch-quiz-page').textContent = iFace.menuQuiz;
+				this.container.querySelector('.switch-rezults-page').textContent = iFace.menuRezult;
+			}
 		};
 	}
 
@@ -31,11 +41,19 @@ class Header extends Component {
 				<a href="#${PageIds.QuizPage}" class="switch-quiz-page ">${iFace.menuQuiz}</a>
 				<a href="#${PageIds.RezultsPage}" class="switch-rezults-page ">${iFace.menuRezult}</a>
 			</nav>
-			<select class="select-language" name="select">
-				<option value="en" ${language === 'en' ? 'selected' : ''}>${iFace.langEn}</option>
-				<option value="ru" ${language === 'ru' ? 'selected' : ''}>${iFace.langRu}</option>
-			</select>
-		</div >`;
+
+			<div class="switch-language">
+				<label class="switch">
+					<input type="checkbox" class="switch__box" name="" id="" ${language === 'en' ? 'checked' : ''}>
+					<span class="switch__button"></span>
+				</label>
+
+				<p class="switch-language__label">
+					${iFace.langSwitch}
+				</p>
+			</div>
+
+			</div >`;
 	}
 
 	render() {

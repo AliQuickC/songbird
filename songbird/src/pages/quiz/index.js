@@ -137,6 +137,7 @@ class QuizPage extends Page {
 					}
 					this.store.dispatch({type: 'SELECT_ANSWER', answerNum});
 
+					// this.selectedAnswer.render();
 					this.render();
 				}
 				if(event.target.closest('.quiz__next-button') && quizData.haveTrueAnswer) {

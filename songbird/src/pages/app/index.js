@@ -90,7 +90,9 @@ class App {
 		this.footer = new Footer('footer', 'footer');
 
 		this.header.addEventListener('switchlanguage', ()=>{
-			this.render();
+			this.renderNewPage(this.currentPage);
+
+			// this.render();
 		});
 	}
 

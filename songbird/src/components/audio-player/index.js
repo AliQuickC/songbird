@@ -51,7 +51,7 @@ class AudioPlayer extends Component {
 			if (!this.isProgressTimeInput) {
 				const trackCurrent = this.container.querySelector('.audioplayer__progress-time-current');
 				trackCurrent.textContent = getTimeCodeFromNum(currentTime);
-				timeRange.value = currentTimePercent;
+				timeRange.value = currentTimePercent ? currentTimePercent : 0;
 			}
 		};
 		this.audio.onended = () => {
