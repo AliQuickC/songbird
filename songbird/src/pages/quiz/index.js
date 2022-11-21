@@ -1,5 +1,6 @@
 import Page from '../pages';
 import AudioPlayer from '../../components/audio-player';
+import AnswersList from '../../components/answers-list';
 import SelectedAnswer from '../../components/selected-answer';
 import { PageIds } from '../../core/type';
 const totalQuestions = 6;
@@ -17,25 +18,15 @@ class QuizPage extends Page {
 		const state = this.store.getState();
 		const language = state.userData.language;
 		const quizData = state.userData.quizData;
-		const questionBirdId =  state.userData.quizData.questionBirdId;
-		const iFace = this.store.getState().interface[language].quiz;
-		const answers = this.store.getState().data[language][quizData.currentQuestion];
-		const questionName = quizData.checkAnswers[questionBirdId] ? answers[questionBirdId].name : '* * * * *';
-		const questionImage = quizData.checkAnswers[questionBirdId] ? answers[questionBirdId].image : './assets/images/bird-default.jpg';
+		const trueAnswer =  state.userData.quizData.trueAnswer;
+		const iFace = state.interface[language].quiz;
+		const answers = state.data[language][quizData.currentQuestion];
+		const questionName = quizData.checkAnswers[trueAnswer] ? answers[trueAnswer].name : '* * * * *';
+		const questionImage = quizData.checkAnswers[trueAnswer] ? answers[trueAnswer].image : './assets/images/bird-default.jpg';
 
 		let paginationElements = '';
 		for (let i = 0; i < 6; i++) {
 			paginationElements += `<span class="quiz__pagination-item">${iFace.questionList[i]}</span>`;
-		}
-
-		let answersElems = '';
-		for(let i=0; i<6; i++) {
-			let answerClass = '';
-			if(quizData.checkAnswers[i]) {
-				if(i === questionBirdId) {answerClass = 'answers__item_success';}
-				else {answerClass = 'answers__item_error';}
-			}
-			answersElems += `<li class="answers__item ${answerClass}" data-answer="${i}"><span class="answers__item-marker"></span><span class="answers__item-name">${answers[i].name}</span></li>`;
 		}
 
 		return `
@@ -64,10 +55,9 @@ class QuizPage extends Page {
 		</div>
 
 		<div class="quiz__answer-wrap">
-			<div class="answers answers">
-				<ul class="quiz__possible-answers answers__list">
-					${answersElems}
-				</ul>
+			<div class="answers">
+
+
 			</div>
 
 			<div class="quiz__selected-answer">
@@ -87,12 +77,16 @@ class QuizPage extends Page {
 		const userData = state.userData;
 		const language = userData.language;
 		const quizData = userData.quizData;
-		const audioSrc = state.data[language][quizData.currentQuestion][quizData.questionBirdId].audio;
+		const audioSrc = state.data[language][quizData.currentQuestion][quizData.trueAnswer].audio;
 
 		this.container.innerHTML = this.toHTML();
 
 		const questionWrap = this.container.querySelector('.quiz__question-wrap');
 		questionWrap.append(this.audioPlayerQuestion.render());
+
+		const answers = this.container.querySelector('.answers');
+		answers.append(this.answersList.render());
+
 		const selectedAnswerElement = this.container.querySelector('.quiz__selected-answer');
 		selectedAnswerElement.append(this.selectedAnswer.render());
 
@@ -113,6 +107,7 @@ class QuizPage extends Page {
 
 	init() {
 		this.selectedAnswer = new SelectedAnswer(this.store, 'div', 'selected-answer');
+		this.answersList = new AnswersList(this.store, 'div', 'answers__list');
 		this.audioPlayerQuestion = new AudioPlayer('div', 'audioplayer-question');
 		this.answerSound = new Audio();
 		this.answerSound.currentTime = 0;
@@ -130,21 +125,19 @@ class QuizPage extends Page {
 
 					this.store.dispatch({type: 'SELECT_ANSWER', answerNum});
 					if(!quizData.haveTrueAnswer && !quizData.checkAnswers[answerNum]) { // new select answer
-						if( answerNum === quizData.questionBirdId) {
+						if( answerNum === quizData.trueAnswer) {
 							this.answerSound.src = './assets/sound/correct-answer.mp3';
 							this.answerSound.play();
 							this.render();
 						} else {
 							this.answerSound.src = './assets/sound/wrong-answer.mp3';
 							this.answerSound.play();
-							// this.selectedAnswer.render();
-							// this.answers.render();
-							this.render();
+							this.answersList.render();
+							this.selectedAnswer.render();
 						}
 					} else {
-						// this.selectedAnswer.render();
-						// this.answers.render();
-						this.render();
+						this.answersList.render();
+						this.selectedAnswer.render();
 					}
 				}
 				if(event.target.closest('.quiz__next-button') && quizData.haveTrueAnswer) {

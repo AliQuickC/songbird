@@ -24,7 +24,7 @@ export default function reducer(state, action) {
 			quizData = {
 				startQuiz: true,
 				currentQuestion: 0,
-				questionBirdId: randomInteger(0, 5),
+				trueAnswer: randomInteger(0, 5),
 				checkAnswers: new Array(6).fill(false),
 				selectAnswer: undefined,
 				haveTrueAnswer: false,
@@ -37,7 +37,7 @@ export default function reducer(state, action) {
 		quizData = JSON.parse(JSON.stringify(state.userData.quizData));
 		if(!quizData.haveTrueAnswer) { quizData.checkAnswers[action.answerNum] = true; }
 		quizData.selectAnswer = action.answerNum;
-		if(action.answerNum === quizData.questionBirdId && !quizData.haveTrueAnswer) { // treu answer
+		if(action.answerNum === quizData.trueAnswer && !quizData.haveTrueAnswer) { // treu answer
 			quizData.haveTrueAnswer = true;
 			quizData.quizScore += maxQuestuionScore - quizData.checkAnswers.reduce((summ, item) => item ? summ + 1 : summ, 0);
 		}
@@ -46,7 +46,7 @@ export default function reducer(state, action) {
 	case 'NEXT_QUESTION':
 		quizData = JSON.parse(JSON.stringify(state.userData.quizData));
 		quizData.currentQuestion = quizData.currentQuestion + 1,
-		quizData.questionBirdId = randomInteger(0, 5);
+		quizData.trueAnswer = randomInteger(0, 5);
 		quizData.checkAnswers = new Array(6).fill(false);
 		quizData.selectAnswer = undefined;
 		quizData.haveTrueAnswer = false;

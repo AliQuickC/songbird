@@ -162,6 +162,7 @@ class AudioPlayer extends Component {
 	}
 
 	render() {
+		this.isPlay = false;
 		this.container.innerHTML = this.toHTML();
 
 		const volumeRange = this.container.querySelector('.audioplayer__range-volume');
