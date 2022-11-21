@@ -21,6 +21,7 @@ class Header extends Component {
 
 				this.container.querySelector('.switch-quiz-page').textContent = iFace.menuQuiz;
 				this.container.querySelector('.switch-rezults-page').textContent = iFace.menuRezult;
+				this.container.querySelector('.switch-language__label').textContent = iFace.langSwitch;
 			}
 		};
 	}

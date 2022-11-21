@@ -64,9 +64,11 @@ class QuizPage extends Page {
 		</div>
 
 		<div class="quiz__answer-wrap">
-			<ul class="quiz__possible-answers answers">
-				${answersElems}
-			</ul>
+			<div class="answers answers">
+				<ul class="quiz__possible-answers answers__list">
+					${answersElems}
+				</ul>
+			</div>
 
 			<div class="quiz__selected-answer">
 			</div>
