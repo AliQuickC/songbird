@@ -126,19 +126,24 @@ class QuizPage extends Page {
 				if(selectAnswer) {
 					const answerNum = +selectAnswer.dataset.answer;
 
-					if(!quizData.haveTrueAnswer && !quizData.checkAnswers[answerNum]) {
+					this.store.dispatch({type: 'SELECT_ANSWER', answerNum});
+					if(!quizData.haveTrueAnswer && !quizData.checkAnswers[answerNum]) { // new select answer
 						if( answerNum === quizData.questionBirdId) {
 							this.answerSound.src = './assets/sound/correct-answer.mp3';
 							this.answerSound.play();
+							this.render();
 						} else {
 							this.answerSound.src = './assets/sound/wrong-answer.mp3';
 							this.answerSound.play();
+							// this.selectedAnswer.render();
+							// this.answers.render();
+							this.render();
 						}
+					} else {
+						// this.selectedAnswer.render();
+						// this.answers.render();
+						this.render();
 					}
-					this.store.dispatch({type: 'SELECT_ANSWER', answerNum});
-
-					// this.selectedAnswer.render();
-					this.render();
 				}
 				if(event.target.closest('.quiz__next-button') && quizData.haveTrueAnswer) {
 					if(quizData.currentQuestion === totalQuestions-1) {
