@@ -6,11 +6,11 @@ class ErrorPage extends Page {
 
 	constructor(id) {
 		super(id);
+		this.container.className = 'container error-container';
 	}
 
 	render() {
 		const title = this.createHeaderTitle(ErrorPage.TextObject.MainTitle);
-		this.container.className = 'container rezults-container';
 		this.container.append(title);
 		return this.container;
 	}

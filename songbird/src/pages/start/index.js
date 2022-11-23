@@ -4,6 +4,7 @@ import { PageIds } from '../../core/type';
 class StartPage extends Page {
 	constructor(id, props) {
 		super(id);
+		this.container.className = 'container start-container';
 		this.store = props;
 
 		this.init();
@@ -16,15 +17,18 @@ class StartPage extends Page {
 
 		return `
 		<div class="start-container__wrap">
-			<button class="start-container__button start-button">${iFace.startButton}</button>
+			<button class="start-container__start-button startpage-button">${iFace.startButton}</button>
+			<button class="start-container__gallery-button startpage-button">${iFace.galleryButton}</button>
 		</div>
 		`;
 	}
 
 	init() {
 		this.container.onclick = (event) => {
-			if(event.target.closest('.start-container__button')) {
+			if(event.target.closest('.start-container__start-button')) {
 				window.location.hash = PageIds.QuizPage;
+			} else if (event.target.closest('.start-container__gallery-button')) {
+				window.location.hash = PageIds.GalleryPage;
 			}
 		};
 	}
@@ -34,7 +38,6 @@ class StartPage extends Page {
 	}
 
 	render() {
-		this.container.className = 'container start-container';
 		this.container.innerHTML = this.toHTML();
 		return this.container;
 	}

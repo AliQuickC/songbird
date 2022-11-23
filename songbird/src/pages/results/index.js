@@ -4,6 +4,7 @@ const maxScoreRezult = 30;
 class RezultsPage extends Page {
 	constructor(id, props) {
 		super(id);
+		this.container.className = 'container rezults-container';
 		this.store = props;
 
 		this.init();
@@ -27,7 +28,7 @@ class RezultsPage extends Page {
 			if(state.userData.score === maxScoreRezult) {
 				nextRezult = `<p class="rezult-window__info-complete">${iFace.rezultPage.congratulations}</p>`;
 			} else {
-				nextRezult = `<button class="start-button">${iFace.startPage.startButton}</button>`;
+				nextRezult = `<button class="startpage-button">${iFace.startPage.startButton}</button>`;
 			}
 		} else {
 			nextRezult = `<p class="rezult-window__info-complete">${iFace.rezultPage.completeInfo}</p>`;
@@ -43,7 +44,7 @@ class RezultsPage extends Page {
 
 	init() {
 		this.container.onclick = (event) => {
-			if(event.target.closest('.start-button')) {
+			if(event.target.closest('.startpage-button')) {
 				window.location.hash = PageIds.QuizPage;
 			}
 		};
@@ -54,7 +55,6 @@ class RezultsPage extends Page {
 	}
 
 	render() {
-		this.container.className = 'container rezults-container';
 		this.container.innerHTML = this.toHTML();
 		return this.container;
 	}

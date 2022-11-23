@@ -2,6 +2,7 @@ import Header from '../../components/header';
 import Main from '../../components/main';
 import Footer from '../../components/footer';
 import StartPage from '../../pages/start';
+import GalleryPage from '../../pages/gallery';
 import RezultsPage from '../../pages/results';
 import QuizPage from '../../pages/quiz';
 import ErrorPage from '../../pages/error';
@@ -29,6 +30,9 @@ class App {
 		} else if (idPage === PageIds.RezultsPage) {
 			page = new RezultsPage(idPage, this.store);
 			this.currentPage = PageIds.RezultsPage;
+		}	else if (idPage === PageIds.GalleryPage) {
+			page = new GalleryPage(idPage, this.store);
+			this.currentPage = PageIds.GalleryPage;
 		}	else if (idPage === PageIds.QuizPage) {
 			page = new QuizPage(idPage, this.store);
 			this.currentPage = PageIds.QuizPage;

@@ -1,7 +1,7 @@
 import Component from '../components';
-import AudioPlayer from '../../components/audio-player';
+import AudioPlayer from '../audio-player';
 
-class SelectedAnswer extends Component {
+class BirdCard extends Component {
 	constructor(props, tagName, className) {
 		super(tagName, className);
 		this.store = props;
@@ -9,17 +9,15 @@ class SelectedAnswer extends Component {
 		this.init();
 	}
 
-	toHTML() {
+	toHTML(birdId) {
 		const state = this.store.getState();
 		const quizData = state.userData.quizData;
 		const language = state.userData.language;
 		const iFace = this.store.getState().interface[language].quiz;
-		const selectAnswer = state.data[language][quizData.currentQuestion][quizData.selectAnswer];
-		// console.log('selectAnswer: ', selectAnswer);
 
-		if(quizData.selectAnswer !== undefined) {
-			// currentQuestion: 0,
+		const selectAnswer = state.data[language][birdId.question][birdId.cardId];
 
+		if(birdId.card || quizData.selectAnswer !== undefined) {
 			return `
 			<div class="selected-answer__image-wrap">
 				<img src="${selectAnswer.image}" alt="bird" class="selected-answer__image">
@@ -36,16 +34,16 @@ class SelectedAnswer extends Component {
 		}
 	}
 
-	render() {
+	render(birdId = {question: 0, cardId: 0, card: false}) {
 		const state = this.store.getState();
 		const quizData = state.userData.quizData;
 		const language = state.userData.language;
-		const selectAnswer = state.data[language][quizData.currentQuestion][quizData.selectAnswer];
+		const selectAnswer = state.data[language][birdId.question][birdId.cardId];
 
-		this.container.innerHTML = this.toHTML();
+		this.container.innerHTML = this.toHTML(birdId);
 
 		this.audioPlayerQuestion.stop();
-		if(quizData.selectAnswer !== undefined) {
+		if(birdId.card || quizData.selectAnswer !== undefined) {
 			const aboutAnswerElement = this.container.querySelector('.selected-answer__about-wrap');
 			aboutAnswerElement.append(this.audioPlayerQuestion.render());
 			this.audioPlayerQuestion.setAudioTrack(selectAnswer.audio);
@@ -63,4 +61,4 @@ class SelectedAnswer extends Component {
 	}
 }
 
-export default SelectedAnswer;
+export default BirdCard;

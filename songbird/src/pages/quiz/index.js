@@ -1,7 +1,7 @@
 import Page from '../pages';
 import AudioPlayer from '../../components/audio-player';
 import AnswersList from '../../components/answers-list';
-import SelectedAnswer from '../../components/selected-answer';
+import BirdCard from '../../components/bird-card';
 import { PageIds } from '../../core/type';
 const totalQuestions = 6;
 
@@ -87,8 +87,8 @@ class QuizPage extends Page {
 		const answers = this.container.querySelector('.answers');
 		answers.append(this.answersList.render());
 
-		const selectedAnswerElement = this.container.querySelector('.quiz__selected-answer');
-		selectedAnswerElement.append(this.selectedAnswer.render());
+		const birdCardElement = this.container.querySelector('.quiz__selected-answer');
+		birdCardElement.append(this.birdCard.render({question: quizData.currentQuestion, cardId: quizData.selectAnswer}));
 
 		this.setPagination(userData.quizData.currentQuestion);
 		this.audioPlayerQuestion.stop();
@@ -107,7 +107,7 @@ class QuizPage extends Page {
 
 	init() {
 		this.answersList = new AnswersList(this.store, 'div', 'answers__list');
-		this.selectedAnswer = new SelectedAnswer(this.store, 'div', 'selected-answer');
+		this.birdCard = new BirdCard(this.store, 'div', 'selected-answer');
 		this.audioPlayerQuestion = new AudioPlayer('div', 'audioplayer-question');
 		this.answerSound = new Audio();
 		this.answerSound.currentTime = 0;
@@ -115,16 +115,19 @@ class QuizPage extends Page {
 
 		this.container.onclick = (event) => {
 			if( event.target) {
-				const state = this.store.getState();
-				const userData = state.userData;
-				const quizData = userData.quizData;
+				let state = this.store.getState();
+				let userData = state.userData;
+				let quizData = userData.quizData;
 
 				const selectAnswer = event.target.closest('[data-answer]');
 				if(selectAnswer) {
 					const answerNum = +selectAnswer.dataset.answer;
 
 					this.store.dispatch({type: 'SELECT_ANSWER', answerNum});
-					if(!quizData.haveTrueAnswer && !quizData.checkAnswers[answerNum]) { // new answer select
+					state = this.store.getState();
+					userData = state.userData;
+					quizData = userData.quizData;
+					if(quizData.checkAnswers[answerNum]) { // new answer select
 						if( answerNum === quizData.trueAnswer) {
 							this.answerSound.src = './assets/sound/correct-answer.mp3';
 							this.answerSound.play();
@@ -133,11 +136,11 @@ class QuizPage extends Page {
 							this.answerSound.src = './assets/sound/wrong-answer.mp3';
 							this.answerSound.play();
 							this.answersList.render();
-							this.selectedAnswer.render();
+							this.birdCard.render({question: quizData.currentQuestion, cardId: quizData.selectAnswer});
 						}
 					} else {
 						this.answersList.render();
-						this.selectedAnswer.render();
+						this.birdCard.render({question: quizData.currentQuestion, cardId: quizData.selectAnswer});
 					}
 				}
 				if(event.target.closest('.quiz__next-button') && quizData.haveTrueAnswer) {
@@ -154,7 +157,7 @@ class QuizPage extends Page {
 	}
 
 	destroy() {
-		this.selectedAnswer.destroy();
+		this.birdCard.destroy();
 		this.audioPlayerQuestion.destroy();
 	}
 }

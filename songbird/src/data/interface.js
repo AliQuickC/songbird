@@ -4,7 +4,8 @@ const langInterface = {
 		menuRezult: 'Rezults',
 		langSwitch: 'ru/en',
 		startPage: {
-			startButton: 'Start Quiz'
+			startButton: 'Start Quiz',
+			galleryButton: 'Bird gallery',
 		},
 		quiz: {
 			score: 'Score',
@@ -24,7 +25,8 @@ const langInterface = {
 		menuRezult: 'Результаты',
 		langSwitch: 'ру/анг',
 		startPage: {
-			startButton: 'Начать Викторину'
+			startButton: 'Начать Викторину',
+			galleryButton: 'Галерея птиц',
 		},
 		quiz: {
 			score: 'Счет игры',
