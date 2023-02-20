@@ -36,7 +36,7 @@ module.exports = {
 	entry: './index.js', // точка входа
 	output: {
 		filename: filename('js'), // файл, куда будут собираться все скрипты
-		path: path.resolve(__dirname, 'dist'), // путь по которому будут складываться собранные скрипты
+		path: path.resolve(__dirname, 'build'), // путь по которому будут складываться собранные скрипты
 		assetModuleFilename: '[file]',
 		// assetModuleFilename: 'assets/[name]-[hash][ext]',
 	},
@@ -99,7 +99,7 @@ module.exports = {
 	},
 
 	plugins: [
-		new CleanWebpackPlugin(),  // чистит папку dist, перед новой сборкой
+		new CleanWebpackPlugin(),  // чистит папку build, перед новой сборкой
 		new HTMLWebpackPlugin({
 			template: './index.html' // шаблон для генерации html файла
 		}),

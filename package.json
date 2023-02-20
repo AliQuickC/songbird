@@ -7,9 +7,12 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "cross-env NODE_ENV=development webpack  serve --mode development",
     "build-dev": "cross-env NODE_ENV=development webpack --mode development",
-    "build-prod": "cross-env NODE_ENV=production webpack --mode production",
-    "clear": "rd /s /q dist"
+    "build": "cross-env NODE_ENV=production webpack --mode production",
+    "clear": "rd /s /q dist",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
+  "homepage": "https://aliquickc.github.io/songbird",
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -35,6 +38,7 @@
     "webpack-dev-server": "^4.7.3"
   },
   "dependencies": {
+    "gh-pages": "^5.0.0",
     "normalize.css": "^8.0.1"
   }
 }
