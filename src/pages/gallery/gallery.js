@@ -1,5 +1,5 @@
-import Page from '../pages';
-import BirdCard from '../../components/bird-card';
+import Page from '../page/Page';
+import BirdCard from '../../components/bird-card/bird-card';
 
 class GalleryPage extends Page {
 	constructor(id, props) {

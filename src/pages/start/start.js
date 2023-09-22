@@ -1,4 +1,4 @@
-import Page from '../pages';
+import Page from '../page/Page';
 import { PageIds } from '../../core/type';
 
 class StartPage extends Page {

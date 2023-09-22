@@ -1,7 +1,7 @@
-import Page from '../pages';
-import AudioPlayer from '../../components/audio-player';
-import AnswersList from '../../components/answers-list';
-import BirdCard from '../../components/bird-card';
+import Page from '../page/Page';
+import AudioPlayer from '../../components/audio-player/audio-player';
+import AnswersList from '../../components/answers-list/answers-list';
+import BirdCard from '../../components/bird-card/bird-card';
 import { PageIds } from '../../core/type';
 const totalQuestions = 6;
 

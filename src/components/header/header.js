@@ -1,4 +1,4 @@
-import Component from '../components';
+import Component from '../component/component';
 import { PageIds } from '../../core/type';
 
 class Header extends Component {

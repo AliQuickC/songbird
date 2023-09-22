@@ -1,5 +1,5 @@
-import Component from '../components';
-import AudioPlayer from '../audio-player';
+import Component from '../component/component';
+import AudioPlayer from '../audio-player/audio-player';
 
 class BirdCard extends Component {
 	constructor(props, tagName, className) {

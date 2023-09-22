@@ -1,4 +1,4 @@
-import Component from '../components';
+import Component from '../component/component';
 
 class AnswersList extends Component {
 	constructor(props, tagName, className) {

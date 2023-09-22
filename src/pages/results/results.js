@@ -1,4 +1,4 @@
-import Page from '../pages';
+import Page from '../page/Page';
 import { PageIds } from '../../core/type';
 const maxScoreRezult = 30;
 class RezultsPage extends Page {

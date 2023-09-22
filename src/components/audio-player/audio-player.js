@@ -1,4 +1,4 @@
-import Component from '../components';
+import Component from '../component/component';
 const timeZero = 0;
 const volumeZero = 0;
 const volumeDefault = 0.2;

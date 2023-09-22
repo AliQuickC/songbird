@@ -1,4 +1,4 @@
-import Page from '../pages';
+import Page from '../page/Page';
 
 class ErrorPage extends Page {
 

@@ -1,4 +1,4 @@
-import Component from '../components';
+import Component from '../component/component';
 
 class Main extends Component {
 	constructor(tagName, className) {

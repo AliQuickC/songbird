@@ -1,11 +1,11 @@
-import Header from '../../components/header';
-import Main from '../../components/main';
-import Footer from '../../components/footer';
-import StartPage from '../../pages/start';
-import GalleryPage from '../../pages/gallery';
-import RezultsPage from '../../pages/results';
-import QuizPage from '../../pages/quiz';
-import ErrorPage from '../../pages/error';
+import Header from '../../components/header/header';
+import Main from '../../components/main/main';
+import Footer from '../../components/footer/footer';
+import StartPage from '../start/start';
+import GalleryPage from '../gallery/gallery';
+import RezultsPage from '../results/results';
+import QuizPage from '../quiz/quiz';
+import ErrorPage from '../error/error';
 import { PageIds } from '../../core/type';
 
 class App {
@@ -16,7 +16,7 @@ class App {
 		this.init();
 	}
 
-	renderNewPage(idPage) {
+	renderMainSection(idPage) {
 		if(this.main.page) {
 			this.main.page.destroy();
 			this.main.page.container.remove();
@@ -63,7 +63,7 @@ class App {
 	enableRouterChange() {
 		window.addEventListener('hashchange', () => {
 			const hash = window.location.hash.slice(1);
-			this.renderNewPage(hash);
+			this.renderMainSection(hash);
 		});
 	}
 
@@ -71,10 +71,10 @@ class App {
 		this.container.append(this.header.render());
 		this.container.append(this.main.render());
 		this.container.append(this.footer.render());
-		this.renderNewPage(this.currentPage);
-		// this.renderNewPage(PageIds.StartPage);
-		// this.renderNewPage(PageIds.QuizPage);
-		// this.renderNewPage(PageIds.RezultsPage);
+		this.renderMainSection(this.currentPage);
+		// this.renderMainSection(PageIds.StartPage);
+		// this.renderMainSection(PageIds.QuizPage);
+		// this.renderMainSection(PageIds.RezultsPage);
 	}
 
 	run() {
@@ -90,7 +90,7 @@ class App {
 		this.footer = new Footer('footer', 'footer');
 
 		this.header.addEventListener('switchlanguage', ()=>{
-			this.renderNewPage(this.currentPage);
+			this.renderMainSection(this.currentPage);
 		});
 	}
 

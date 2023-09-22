@@ -279,7 +279,7 @@ const birdsDataRu = [
 			name: 'Пеликан',
 			species: 'Pelecanus',
 			description: 'Пеликаны — обитатели морей и рек. Ходят они неуклюже, но хорошо летают и плавают. Питаются в основном рыбой, устраивают коллективные охоты — выстроившись полукругом хлопают по воде крыльями и клювами и вытесняют напуганную рыбу на мелководье.',
-			image: 'https://o-prirode.ru/wp-content/uploads/2017/08/pelikan_meshkanos.jpg',
+			image: 'https://grandgames.net/puzzle/source/pelikan_meshkanos.jpg',
 			audio: 'https://www.xeno-canto.org/sounds/uploaded/XAMHIHFTZG/XC331138-call1.mp3'
 		},
 		{

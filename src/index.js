@@ -3,7 +3,7 @@ import birdsDataEn from './data/birds-en';
 import birdsDataRu from './data/birds-ru';
 import reducer from './redux/reducer';
 import createStore from './redux/store';
-import App from './pages/app';
+import App from './pages/app/app';
 import { PageIds } from './core/type';
 import langInterface from './data/interface';
 
