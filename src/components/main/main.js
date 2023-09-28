@@ -1,19 +1,25 @@
 import Component from '../component/component';
 
 class Main extends Component {
-	constructor(tagName, className) {
+	constructor(props, tagName, className) {
 		super(tagName, className);
-		this.page = null;
+		this.store = props;
+
+		this.page = null; // PageComponent extend Page
+		// this.store.getState().userData.currentPage;
 	}
 
 	render() {
+		// this.container.append(page.getContainer().render())
 		return this.container;
 	}
 
 	init() {}
 
 	destroy() {
-		if(this.page) {this.page.destroy();}
+		if (this.page) {
+			this.page.destroy();
+		}
 	}
 }
 
