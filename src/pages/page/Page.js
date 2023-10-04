@@ -18,7 +18,9 @@ class Page {
 
 	init() {}
 
-	destroy() {}
+	destroy() {
+		this.container.remove();
+	}
 }
 
 export default Page;

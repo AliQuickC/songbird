@@ -150,6 +150,7 @@ class AudioPlayer extends Component {
 		this.audio.ontimeupdate = null;
 		this.audio.onended = null;
 		this.audio = null;
+		super.destroy();
 	}
 
 	changeRange(element, value = null) {

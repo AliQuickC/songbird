@@ -37,17 +37,20 @@ class App {
 		this.enableRouterChange();
 	}
 
+	mainRender = ()=>{
+		this.main.render();
+	};
+
 	init() {
 		this.header = new Header(this.store, 'header', 'header');
 		this.main = new Main(this.store, 'main', 'main');
 		this.footer = new Footer('footer', 'footer');
 
-		this.header.addEventListener('switchlanguage', ()=>{
-			this.main.render();
-		});
+		this.header.addEventListener('switchlanguage', this.mainRender);
 	}
 
 	destroy() {
+		this.header.removeEventListener('switchlanguage', this.mainRender);
 		this.header.destroy();
 		this.main.destroy();
 		this.footer.destroy();

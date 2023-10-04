@@ -9,6 +9,10 @@ class Component extends Publisher {
 	render() {
 		return this.container;
 	}
+
+	destroy() {
+		this.container.remove();
+	}
 }
 
 export default Component;

@@ -29,6 +29,7 @@ class Main extends Component {
 		if (this.page) {
 			this.page.destroy();
 		}
+		this.container.remove();
 	}
 }
 

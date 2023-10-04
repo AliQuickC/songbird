@@ -10,8 +10,6 @@ class AnswersList extends Component {
 
 	init() {}
 
-	destroy() {}
-
 	toHTML() {
 		const state = this.store.getState();
 		const language = state.userData.language;
@@ -38,7 +36,6 @@ class AnswersList extends Component {
 
 	render() {
 		this.container.innerHTML = this.toHTML();
-
 		return this.container;
 	}
 }

@@ -30,6 +30,10 @@ class Footer extends Component {
 		this.container.innerHTML = this.toHTML();
 		return this.container;
 	}
+
+	destroy() {
+		this.container.remove();
+	}
 }
 
 export default Footer;

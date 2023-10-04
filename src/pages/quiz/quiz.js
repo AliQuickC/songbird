@@ -106,12 +106,12 @@ class QuizPage extends Page {
 	}
 
 	init() {
+		this.audioPlayerQuestion = new AudioPlayer('div', 'audioplayer-question');
 		this.answersList = new AnswersList(this.store, 'div', 'answers__list');
 		this.birdCard = new BirdCard(this.store, 'div', 'selected-answer');
-		this.audioPlayerQuestion = new AudioPlayer('div', 'audioplayer-question');
-		this.answerSound = new Audio();
-		this.answerSound.currentTime = 0;
-		this.answerSound.volume = 0.2;
+		this.answerCheckSound = new Audio();
+		this.answerCheckSound.currentTime = 0;
+		this.answerCheckSound.volume = 0.2;
 
 		this.container.onclick = (event) => {
 			if( event.target) {
@@ -129,12 +129,12 @@ class QuizPage extends Page {
 					quizData = userData.quizData;
 					if(quizData.checkAnswers[answerNum]) { // new answer select
 						if( answerNum === quizData.trueAnswer) {
-							this.answerSound.src = './assets/sound/correct-answer.mp3';
-							this.answerSound.play();
+							this.answerCheckSound.src = './assets/sound/correct-answer.mp3';
+							this.answerCheckSound.play();
 							this.render();
 						} else {
-							this.answerSound.src = './assets/sound/wrong-answer.mp3';
-							this.answerSound.play();
+							this.answerCheckSound.src = './assets/sound/wrong-answer.mp3';
+							this.answerCheckSound.play();
 							this.answersList.render();
 							this.birdCard.render({question: quizData.currentQuestion, cardId: quizData.selectAnswer});
 						}
@@ -157,8 +157,12 @@ class QuizPage extends Page {
 	}
 
 	destroy() {
-		this.birdCard.destroy();
+		this.container.onclick = null;
 		this.audioPlayerQuestion.destroy();
+		this.answersList.destroy();
+		this.birdCard.destroy();
+		this.answerCheckSound = null;
+		super.destroy();
 	}
 }
 

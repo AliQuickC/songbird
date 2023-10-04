@@ -52,6 +52,7 @@ class RezultsPage extends Page {
 
 	destroy() {
 		this.container.onclick = null;
+		super.destroy();
 	}
 
 	render() {

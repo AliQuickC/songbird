@@ -41,6 +41,7 @@ class Header extends Component {
 
 	destroy() {
 		this.container.onchange = null;
+		this.container.remove();
 	}
 
 	toHTML() {

@@ -58,6 +58,7 @@ class BirdCard extends Component {
 
 	destroy() {
 		this.audioPlayerQuestion.destroy();
+		super.destroy();
 	}
 }
 
