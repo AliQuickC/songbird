@@ -10,52 +10,30 @@ class App {
 		this.init();
 	}
 
-	renderMainSection(idPage) {
-		if(this.main.page) {
-			this.main.page.destroy();
-			this.main.page.container.remove();
-		}
-		const mainContainer = this.main.container;
-
+	changeMainSection(idPage) {
 		const hasPage = Object.prototype.hasOwnProperty.call(PageComponents, idPage);
-
 		this.store.dispatch({type: 'SWITCH_PAGE', currentPage: hasPage ? idPage : PageIds.ErrorPage});
-		const currentPage = this.store.getState().userData.currentPage;								// string
-		const page = hasPage ? new PageComponents[currentPage](idPage, this.store) :	// PageComponent extend Page
-			new PageComponents[currentPage](idPage);
-
-		const headerMenu = document.querySelector('#header-menu');
-		const headerMenuItems = headerMenu.querySelectorAll('a');
-		headerMenuItems.forEach(item => {
-			item.classList.remove('active-link');
-		});
-		if(currentPage === PageIds.QuizPage || currentPage === PageIds.RezultsPage) {
-			const activeMenu = headerMenu.querySelector(`[href="#${currentPage}"]`);
-			if(activeMenu) { activeMenu.classList.add('active-link'); }
-		}
-
-		const pageHTML = page.render();
-		this.main.page = page;
-		mainContainer.append(pageHTML);
 	}
 
 	enableRouterChange() {
 		window.addEventListener('hashchange', () => {
 			const hash = window.location.hash.slice(1);
-			this.renderMainSection(hash);
+			this.changeMainSection(hash);
+			this.header.reNewMenu();
+			this.main.render();
 		});
 	}
 
 	render() {
+		this.changeMainSection(this.store.getState().userData.currentPage);
 		this.container.append(this.header.render());
 		this.container.append(this.main.render());
 		this.container.append(this.footer.render());
-		this.renderMainSection(this.store.getState().userData.currentPage); // !!!
+		this.header.reNewMenu();
 	}
 
 	run() {
 		this.render();
-
 		this.enableRouterChange();
 	}
 
@@ -65,7 +43,7 @@ class App {
 		this.footer = new Footer('footer', 'footer');
 
 		this.header.addEventListener('switchlanguage', ()=>{
-			this.renderMainSection(this.store.getState().userData.currentPage);
+			this.main.render();
 		});
 	}
 
@@ -73,7 +51,6 @@ class App {
 		this.header.destroy();
 		this.main.destroy();
 		this.footer.destroy();
-
 	}
 }
 

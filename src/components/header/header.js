@@ -8,6 +8,19 @@ class Header extends Component {
 		this.init();
 	}
 
+	reNewMenu() {
+		const currentPage = this.store.getState().userData.currentPage;								// string
+		const headerMenuItems = this.container.querySelectorAll('a');
+
+		headerMenuItems.forEach(item => {
+			item.classList.remove('active-link');
+		});
+		if(currentPage === PageIds.QuizPage || currentPage === PageIds.RezultsPage) {
+			const activeMenu = this.container.querySelector(`[href="#${currentPage}"]`);
+			if(activeMenu) { activeMenu.classList.add('active-link'); }
+		}
+	}
+
 	init() {
 		this.container.onchange = (event)=> {
 			if(event.target && event.target.closest('.switch__box')) {
