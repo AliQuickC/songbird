@@ -10,13 +10,12 @@ class GalleryPage extends Page {
 	}
 
 	init() {
-		// this.bird = new BirdCard(this.store, 'div', 'selected-answer');
-		this.birds = new Array(36).fill().map(() => new BirdCard(this.store, 'div', 'selected-answer'));
+		this.birds = new Array(36).fill().map(() => new BirdCard(this.store, 'div', 'gallery-container__card'));
 	}
 
 	destroy() {
 		this.birds.forEach((bird)=>{bird.destroy();});
-		// super.destroy();
+		super.destroy();
 	}
 
 	toHTML() {

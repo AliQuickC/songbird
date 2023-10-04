@@ -108,7 +108,7 @@ class QuizPage extends Page {
 	init() {
 		this.audioPlayerQuestion = new AudioPlayer('div', 'audioplayer-question');
 		this.answersList = new AnswersList(this.store, 'div', 'answers__list');
-		this.birdCard = new BirdCard(this.store, 'div', 'selected-answer');
+		this.birdCard = new BirdCard(this.store, 'div', '');
 		this.answerCheckSound = new Audio();
 		this.answerCheckSound.currentTime = 0;
 		this.answerCheckSound.volume = 0.2;
