@@ -45,7 +45,7 @@ class QuizPage extends Page {
 			<div class="quiz__question-image-wrap">
 				<img src="${questionImage}" alt="bird" class="quiz__question-image">
 			</div>
-			<div class="quiz__question-wrap">
+			<div class="quiz__question-wrap" id="quiz-question-wrap">
 				<!-- <p class="quiz__question-bird-name">* * * * *</p> -->
 				<p class="quiz__question-bird-name">${questionName}</p>
 
@@ -55,12 +55,12 @@ class QuizPage extends Page {
 		</div>
 
 		<div class="quiz__answer-wrap">
-			<div class="answers">
+			<div class="answers" id="answers">
 
 
 			</div>
 
-			<div class="quiz__selected-answer">
+			<div class="quiz__selected-answer" id="quiz-selected-answer">
 			</div>
 
 		</div>
@@ -72,23 +72,28 @@ class QuizPage extends Page {
 	}
 
 	render() {
-		this.store.dispatch({type: 'INIT_QUIZ'});
+		this.store.dispatch({type: 'QUIZ_START_INIT'});
 		const state = this.store.getState();
 		const userData = state.userData;
 		const language = userData.language;
 		const quizData = userData.quizData;
 		const audioSrc = state.data[language][quizData.currentQuestion][quizData.trueAnswer].audio;
+		const iFace = state.interface[language].quiz;
+
+		const havSelectAnswer = quizData.checkAnswers.some(x=>x);
 
 		this.container.innerHTML = this.toHTML();
 
-		const questionWrap = this.container.querySelector('.quiz__question-wrap');
+		const questionWrap = this.container.querySelector('#quiz-question-wrap');
 		questionWrap.append(this.audioPlayerQuestion.render());
 
-		const answers = this.container.querySelector('.answers');
+		const answers = this.container.querySelector('#answers');
 		answers.append(this.answersList.render());
 
-		const birdCardElement = this.container.querySelector('.quiz__selected-answer');
-		birdCardElement.append(this.birdCard.render({question: quizData.currentQuestion, cardId: quizData.selectAnswer}));
+		const birdCardElement = this.container.querySelector('#quiz-selected-answer');
+		havSelectAnswer ?
+			birdCardElement.append(this.birdCard.render({question: quizData.currentQuestion, cardId: quizData.selectAnswer})) :
+			birdCardElement.innerHTML = `<div class="bird-card"><p class="bird-card__noselect">${iFace.answerNoSelect}</p></div>`;
 
 		this.setPagination(userData.quizData.currentQuestion);
 		this.audioPlayerQuestion.stop();
@@ -118,28 +123,34 @@ class QuizPage extends Page {
 				let state = this.store.getState();
 				let userData = state.userData;
 				let quizData = userData.quizData;
+				const havSelectAnswer = quizData.checkAnswers.some(x=>x);
 
 				const selectAnswer = event.target.closest('[data-answer]');
 				if(selectAnswer) {
 					const answerNum = +selectAnswer.dataset.answer;
 
+					const prevCheckAnswers = quizData.checkAnswers[answerNum];
 					this.store.dispatch({type: 'SELECT_ANSWER', answerNum});
 					state = this.store.getState();
 					userData = state.userData;
 					quizData = userData.quizData;
-					if(quizData.checkAnswers[answerNum]) { // new answer select
-						if( answerNum === quizData.trueAnswer) {
+
+					if(quizData.checkAnswers[answerNum] && !prevCheckAnswers) { // new answer select
+						if( answerNum === quizData.trueAnswer) { // true Answer
 							this.answerCheckSound.src = './assets/sound/correct-answer.mp3';
 							this.answerCheckSound.play();
 							this.render();
-						} else {
+						} else {																// false Answer
 							this.answerCheckSound.src = './assets/sound/wrong-answer.mp3';
 							this.answerCheckSound.play();
-							this.answersList.render();
-							this.birdCard.render({question: quizData.currentQuestion, cardId: quizData.selectAnswer});
+							if(havSelectAnswer) {
+								this.answersList.render();
+								this.birdCard.render({question: quizData.currentQuestion, cardId: quizData.selectAnswer});
+							} else {
+								this.render();
+							}
 						}
 					} else {
-						this.answersList.render();
 						this.birdCard.render({question: quizData.currentQuestion, cardId: quizData.selectAnswer});
 					}
 				}

@@ -19,7 +19,7 @@ export default function reducer(state, action) {
 		userData.currentPage = action.currentPage;
 		state.userData = userData;
 		return state;
-	case 'INIT_QUIZ':
+	case 'QUIZ_START_INIT':
 		if(!state.userData.quizData.startQuiz) {
 			quizData = {
 				startQuiz: true,
