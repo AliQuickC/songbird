@@ -123,24 +123,23 @@ class QuizPage extends Page {
 				let state = this.store.getState();
 				let userData = state.userData;
 				let quizData = userData.quizData;
-				const havSelectAnswer = quizData.checkAnswers.some(x=>x);
 
 				const selectAnswer = event.target.closest('[data-answer]');
 				if(selectAnswer) {
 					const answerNum = +selectAnswer.dataset.answer;
 
 					const prevCheckAnswers = quizData.checkAnswers[answerNum];
-					this.store.dispatch({type: 'SELECT_ANSWER', answerNum});
-					state = this.store.getState();
-					userData = state.userData;
-					quizData = userData.quizData;
+					if(!prevCheckAnswers && !quizData.haveTrueAnswer) {	// answer selected for the First time, and not have true answer
+						const havSelectAnswer = quizData.checkAnswers.some(x=>x);
+						this.store.dispatch({type: 'SELECT_ANSWER', answerNum});
+						state = this.store.getState();
+						quizData = state.userData.quizData;
 
-					if(quizData.checkAnswers[answerNum] && !prevCheckAnswers) { // new answer select
-						if( answerNum === quizData.trueAnswer) { // true Answer
+						if( answerNum === quizData.trueAnswer) {	// selected answer, is True
 							this.answerCheckSound.src = './assets/sound/correct-answer.mp3';
 							this.answerCheckSound.play();
 							this.render();
-						} else {																// false Answer
+						} else {																	// selected answer, is False
 							this.answerCheckSound.src = './assets/sound/wrong-answer.mp3';
 							this.answerCheckSound.play();
 							if(havSelectAnswer) {
@@ -150,8 +149,8 @@ class QuizPage extends Page {
 								this.render();
 							}
 						}
-					} else {
-						this.birdCard.render({question: quizData.currentQuestion, cardId: quizData.selectAnswer});
+					} else {																		// answer has been Reselected
+						this.birdCard.render({question: quizData.currentQuestion, cardId: answerNum});
 					}
 				}
 				if(event.target.closest('.quiz__next-button') && quizData.haveTrueAnswer) {
