@@ -26,7 +26,7 @@ class GalleryPage extends Page {
 		let counter = 0;
 		for(let j=0; j<6; j++) {
 			for(let i=0; i<6; i++) {
-				this.container.append(this.birds[counter].render({question: j, cardId: i, card: true}));
+				this.container.append(this.birds[counter].render({question: j, cardId: i}));
 				counter++;
 			}
 		}
